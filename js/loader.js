@@ -14,7 +14,7 @@ async function translate(path) {
 			document.documentElement.setAttribute("lang", "en-US");
 			return
 	}
-	const ARR = JSON.parse(await request("lang/" + lang + path));
+	const ARR = JSON.parse(await request("/lang/" + lang + path));
 	for(let i in ARR) {
 		document.getElementById(i).innerHTML = ARR[i]
 	}
@@ -28,8 +28,8 @@ async function reload() {
 
 	// Load and instance requested main content
 	if(location.pathname == "/") location.pathname = "/home";
-	if(!check("html" + location.pathname)) location.pathname = "/404";
-	request("html" + location.pathname).then(res => {
+	if(!check("/html" + location.pathname)) location.pathname = "/404";
+	request("/html" + location.pathname).then(res => {
 		MAIN.innerHTML = res;
 
 		// Try to translate the new content
