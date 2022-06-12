@@ -14,7 +14,7 @@ async function translate(path) {
 			document.documentElement.setAttribute("lang", "en-US");
 			return
 	}
-	const ARR = JSON.parse(await request("/lang/" + lang + path));
+	const ARR = JSON.parse(await request("/lang/" + lang + path + ".json"));
 	for(let i in ARR) {
 		document.getElementById(i).innerHTML = ARR[i]
 	}
