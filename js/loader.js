@@ -26,6 +26,8 @@ async function reload() {
 	// Translate static part of the webpage
 	if(document.documentElement.getAttribute("lang") == null) translate("");
 
+	if(location.pathname == "/") location.pathname = "/index";
+
 	// Load and instance requested main content
 	request(
 		check("html" + location.pathname + ".html")? "html" + location.pathname + ".html" : "html/404.html"
