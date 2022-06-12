@@ -14,7 +14,7 @@ async function translate(path) {
 			document.documentElement.setAttribute("lang", "en-US");
 			return
 	}
-	const ARR = JSON.parse(await request("lang/" + lang + path + ".json"));
+	const ARR = JSON.parse(await request("lang/" + lang + path));
 	for(let i in ARR) {
 		document.getElementById(i).innerHTML = ARR[i]
 	}
@@ -26,12 +26,10 @@ async function reload() {
 	// Translate static part of the webpage
 	if(document.documentElement.getAttribute("lang") == null) translate("");
 
-	if(location.pathname == "/") location.pathname = "/index";
-
 	// Load and instance requested main content
-	request(
-		check("html" + location.pathname + ".html")? "html" + location.pathname + ".html" : "html/404.html"
-	).then(res => {
+	if(location.pathname == "/") location.pathname = "/index";
+	if(!check("html" + location.pathname)) location.pathname = "404";
+	request("html" + location.pathname).then(res => {
 		MAIN.innerHTML = res;
 
 		// Try to translate the new content
