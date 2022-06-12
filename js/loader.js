@@ -1,17 +1,42 @@
 const MAIN = document.getElementsByTagName("main")[0];
 
-onload = async () => {
-	(location.pathname == "/")?
-		MAIN.innerHTML = await request("html/index.html")
-	: (check("html" + location.pathname + ".html"))?
-		MAIN.innerHTML = await request("html" + location.pathname + ".html")
-	: MAIN.innerHTML = await request("html/404.html")
+
+async function check(url) { return fetch(url, {method: "HEAD"}).then(res => res.ok) }
+async function request(url) { return await (await fetch(url)).text() }
+
+async function translate(path) {
+	let lang;
 	switch(navigator.language) {
 		case "de-DE":
-			translate(await request("lang/de.json"));
+			lang = "de";
+			break;
 		default:
-			document.documentElement.setAttribute("lang", "en-US")
+			document.documentElement.setAttribute("lang", "en-US");
+			return
 	}
+	const ARR = JSON.parse(await request("lang/" + lang + path + ".json"));
+	for(let i in ARR) {
+		document.getElementById(i).innerHTML = ARR[i]
+	}
+	document.documentElement.setAttribute("lang", navigator.language)
+}
+
+
+async function reload() {
+	// Translate static part of the webpage
+	if(document.documentElement.getAttribute("lang") == null) translate("");
+
+	// Load and instance requested main content
+	request(
+		check("html" + location.pathname + ".html")? "html" + location.pathname + ".html" : "html/404.html"
+	).then(res => {
+		MAIN.innerHTML = res;
+
+		// Try to translate the new content
+		translate(location.pathname)
+	});
+
+	// Scroll to requested section
 	/*scrollTo({
 		behavior: "smooth",
 		top:
@@ -21,24 +46,8 @@ onload = async () => {
 	})*/
 }
 
-async function check(url) { return fetch(url, {method: "HEAD"}).then(res => res.ok) }
-async function request(url) { return await (await fetch(url)).text() }
-
-function translate(json) {
-	json = JSON.parse(json);
-	for(let key in json) {
-		document.getElementById(key).innerHTML = json[key]
-	}
-	document.documentElement.setAttribute("lang", navigator.language)
-}
-
-
-
-
-
 /*onpopstate = function() {
-	toggleNav();
-	switchTo("html" + location.href.replace(location.origin, ""));
+	switchTo();
 };
 
 function switchTo(href) {
@@ -51,3 +60,6 @@ function switchTo(href) {
 		section = "main";
 	}
 }*/
+
+
+onload = reload()
