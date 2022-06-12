@@ -27,8 +27,8 @@ async function reload() {
 	if(document.documentElement.getAttribute("lang") == null) translate("");
 
 	// Load and instance requested main content
-	if(location.pathname == "/") location.pathname = "/index";
-	if(!check("html" + location.pathname)) location.pathname = "404";
+	if(location.pathname == "/") location.pathname = "/home";
+	if(!check("html" + location.pathname)) location.pathname = "/404";
 	request("html" + location.pathname).then(res => {
 		MAIN.innerHTML = res;
 
