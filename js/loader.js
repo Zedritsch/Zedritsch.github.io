@@ -1,5 +1,6 @@
 const A=["de"];async function b(c){
 	const D=navigator.language.substring(0,2);
+	console.log(D);
 	if(A.includes(D)){
 		const E=JSON.parse(await (fetch("/lang/"+D+c+".json").then(f=>f.text)));
 		for(let g in E)document.getElementById(g).innerHTML=E[g];
