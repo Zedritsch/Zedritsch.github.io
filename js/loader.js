@@ -37,29 +37,15 @@ async function reload() {
 	});
 
 	// Scroll to requested section
-	/*scrollTo({
+	scrollTo({
 		behavior: "smooth",
 		top:
-			document.getElementById(location.hash).getBoundingClientRect().top -
+			0
+			/*document.getElementById(location.hash).getBoundingClientRect().top -
 			document.body.getBoundingClientRect().top -
-			2.8 * parseFloat(getComputedStyle(document.getElementsByTagName("header")[0]).fontSize)
-	})*/
+			2.8 * parseFloat(getComputedStyle(document.getElementsByTagName("header")[0]).fontSize)*/
+	})
 }
-
-/*onpopstate = function() {
-	switchTo();
-};
-
-function switchTo(href) {
-	const url = location.origin + href.substring(href.lastIndexOf("/")) + "#" + section;
-	if(location.href !== url) {
-		history.pushState(null, null, url);
-	}
-
-	if(section === "") {
-		section = "main";
-	}
-}*/
 
 
 onload = reload()
