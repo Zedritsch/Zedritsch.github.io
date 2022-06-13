@@ -5,6 +5,5 @@ const A=navigator.language.substring(0,2);const B=["de"].includes(A);const C=doc
 		f("/404");
 		return null
 	}).then(h=>{
-		D.innerHTML=h;
-		if(B)e(path)
+		if(h!=null){D.innerHTML=h;if(B)e(path)}
 	});scrollTo({behavior:"smooth",top:0/*TODO*/})}if(C.getAttribute("lang")==null){if(B){C.setAttribute("lang",A);e("")}else C.setAttribute("lang","en")};onload=f(location.pathname)
